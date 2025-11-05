@@ -1,4 +1,4 @@
-# Help Desk Mini
+# Help Desk Intake
 
 Lightweight, client-side help desk. Create, search, filter, close/reopen, delete tickets. Data is saved in your browser (localStorage). No backend.
 
