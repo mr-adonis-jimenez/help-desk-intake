@@ -1,3 +1,6 @@
+![Lint](https://github.com/<mr-adonis-jimenez>/<hekp-desk-intake>/actions/workflows/lint.yml/badge.svg)
+![Lighthouse](https://github.com/<mr-adonis-jimenez>/<hekp-desk-intake>/actions/workflows/lighthouse.yml/badge.svg)
+
 ![Lighthouse](https://img.shields.io/badge/Lighthouse-Audited-blue)
 
 # Help Desk Intake & Ticket Tracker
