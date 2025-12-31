@@ -1,3 +1,5 @@
+![Lighthouse](https://img.shields.io/badge/Lighthouse-Audited-blue)
+
 # Help Desk Intake & Ticket Tracker
 
 A lightweight, browser-based IT help desk intake system built with HTML, CSS, and JavaScript.
