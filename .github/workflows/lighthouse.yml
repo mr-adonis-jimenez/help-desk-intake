@@ -1,10 +1,13 @@
 name: Lighthouse CI
+
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
-  permissions:
+
+permissions:
   contents: read
+
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
@@ -12,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -22,5 +25,4 @@ jobs:
 
       - name: Run Lighthouse
         run: |
-          lhci autorun \
-            --collect.staticDistDir=.
+          lhci autorun --collect.staticDistDir=.
