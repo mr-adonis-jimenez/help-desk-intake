@@ -1,3 +1,6 @@
 - name: Install linters
   run: |
     npm install -g htmlhint stylelint stylelint-config-standard eslint
+
+- name: Claude Code Action Official
+- uses: anthropics/claude-code-action@v1
