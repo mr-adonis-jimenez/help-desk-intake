@@ -22,3 +22,5 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
+- name: Claude Code Action Official
+- uses: anthropics/claude-code-action@v1
