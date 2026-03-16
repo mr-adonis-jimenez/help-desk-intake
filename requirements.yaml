@@ -1,0 +1,17 @@
+packages:
+  "framer-motion": "Smooth page transitions and animated layout changes"
+  "date-fns": "Human-readable date formatting for tickets and comments"
+  "react-hook-form": "Robust form state management for ticket submission"
+  "@hookform/resolvers": "Zod validation integration with react-hook-form"
+
+images:
+  - path: "artifacts/helpdesk/public/images/logo.png"
+    description: "Minimal geometric logo mark in deep blue on transparent background representing support or helpdesk"
+    aspect_ratio: "1:1"
+  - path: "artifacts/helpdesk/public/images/hero-bg.png"
+    description: "Subtle abstract gradient mesh background in very light icy blue and white, clean corporate aesthetic"
+    aspect_ratio: "16:9"
+
+notes:
+  - API hooks are imported from @workspace/api-client-react
+  - Forms use Zod validation that matches the OpenAPI schema types

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Help Desk Intake"
+version = "1.0.0"
+id = "artifacts/helpdesk"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+localPort = 21622
+name = "web"
+paths = ["/"]
+
+[services.development]
+run = "pnpm --filter @workspace/helpdesk run dev"
+
+[services.env]
+PORT = "21622"
+BASE_PATH = "/"
+
+[services.production]
+build = ["pnpm", "--filter", "@workspace/helpdesk", "run", "build"]
+publicDir = "artifacts/helpdesk/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
