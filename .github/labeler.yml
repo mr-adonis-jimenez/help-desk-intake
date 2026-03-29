@@ -1,0 +1,27 @@
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: ['README.md', 'docs/**', '*.md']
+
+javascript:
+  - changed-files:
+    - any-glob-to-any-file: '**/*.js'
+
+css:
+  - changed-files:
+    - any-glob-to-any-file: '**/*.css'
+
+html:
+  - changed-files:
+    - any-glob-to-any-file: '**/*.html'
+
+testing:
+  - changed-files:
+    - any-glob-to-any-file: ['**/*.test.js', '**/*.spec.js']
+
+ci/cd:
+  - changed-files:
+    - any-glob-to-any-file: '.github/**'
+
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file: ['package.json', 'package-lock.json']

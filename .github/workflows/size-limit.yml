@@ -1,0 +1,34 @@
+name: Size Limit
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  size:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check bundle size
+        run: |
+          # Calculate total size of CSS/JS
+          total_size=0
+          for file in *.js *.css; do
+            if [ -f "$file" ]; then
+              size=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file")
+              total_size=$((total_size + size))
+              echo "$file: $(numfmt --to=iec $size)"
+            fi
+          done
+
+          echo "Total size: $(numfmt --to=iec $total_size)"
+
+          # Fail if > 100KB
+          if [ $total_size -gt 102400 ]; then
+            echo "::error::Total size exceeds 100KB limit"
+            exit 1
+          fi
