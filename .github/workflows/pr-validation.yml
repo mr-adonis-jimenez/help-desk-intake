@@ -1,0 +1,64 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  validate-title:
+    name: PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title follows Conventional Commits
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern="^(feat|fix|docs|style|refactor|test|chore|ci|perf|build|revert)(\(.+\))?: .{3,}"
+          if ! echo "$PR_TITLE" | grep -qE "$pattern"; then
+            echo "❌ PR title must follow Conventional Commits format"
+            echo "   Examples: feat(#11): add unit tests"
+            echo "             fix(#7): remove zip file"
+            echo "   Got: $PR_TITLE"
+            exit 1
+          fi
+          echo "✅ PR title is valid: $PR_TITLE"
+
+  validate-size:
+    name: PR Size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check PR is not too large
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          additions=${{ github.event.pull_request.additions }}
+          deletions=${{ github.event.pull_request.deletions }}
+          total=$((additions + deletions))
+          echo "Changes: +$additions / -$deletions = $total lines"
+          if [ "$total" -gt 1000 ]; then
+            echo "⚠️ Large PR detected ($total lines changed). Consider splitting into smaller PRs."
+          else
+            echo "✅ PR size is within recommended limits."
+          fi
+
+  validate-branch:
+    name: Branch Name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch naming convention
+        run: |
+          branch="${{ github.head_ref }}"
+          pattern="^(main|feature\/.+|bugfix\/.+|hotfix\/.+|chore\/.+|fix\/.+|ci\/.+|docs\/.+)$"
+          if ! echo "$branch" | grep -qE "$pattern"; then
+            echo "⚠️ Branch name does not follow convention: $branch"
+            echo "   Expected: feature/*, fix/*, chore/*, ci/*, docs/*, etc."
+          else
+            echo "✅ Branch name is valid: $branch"
+          fi
