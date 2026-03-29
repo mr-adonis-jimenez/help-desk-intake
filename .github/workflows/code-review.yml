@@ -15,11 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Run ESLint with review comments
         uses: reviewdog/action-eslint@v1
         with:
