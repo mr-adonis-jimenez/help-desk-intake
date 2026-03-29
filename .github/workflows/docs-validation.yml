@@ -1,0 +1,46 @@
+name: Documentation Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if README updated for feature changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            const hasFeatureChanges = files.some(f =>
+              f.filename.includes('script.js') ||
+              f.filename.includes('index.html')
+            );
+
+            const hasReadmeUpdate = files.some(f =>
+              f.filename === 'README.md'
+            );
+
+            if (hasFeatureChanges && !hasReadmeUpdate) {
+              core.warning('Consider updating README.md for feature changes');
+            }
+
+      - name: Check markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/markdown-link-check.json'
