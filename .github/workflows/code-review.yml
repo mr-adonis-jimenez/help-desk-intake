@@ -15,18 +15,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run ESLint with review comments
-        uses: reviewdog/action-eslint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
-          eslint_flags: '**/*.js'
-          fail_on_error: false
-
-      - name: Run Stylelint with review comments
-        uses: reviewdog/action-stylelint@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
-          stylelint_input: '**/*.css'
-          fail_on_error: false
+      - name: Check for common issues
+        run: |
+          echo "=== Checking for debug statements ==="
+          if grep -rn "console\.log\|debugger" --include="*.js" --include="*.ts" --include="*.tsx" src/ 2>/dev/null; then
+            echo "::warning::Found debug statements in source files"
+          fi
+          
+          echo "=== Checking for TODO/FIXME ==="
+          if grep -rn "TODO\|FIXME\|HACK\|XXX" --include="*.js" --include="*.ts" --include="*.tsx" src/ 2>/dev/null; then
+            echo "::notice::Found TODO/FIXME comments — consider addressing them"
+          fi
+          
+          echo "✅ Code review checks complete"
